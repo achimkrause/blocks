@@ -1,5 +1,5 @@
 function initGame(){
-  let canvas = document.getElementById('gameCanvas');
+  let canvas = document.getElementById('canvas');
   let message = document.getElementById('message');
   let offset = 0;
   let raster = 30;

@@ -1,3 +1,9 @@
+#canvas{
+  display: block;
+  margin: auto;
+  width: 900px;
+}
+
 #message{
   text-align: center;
   font-size: 36pt;
