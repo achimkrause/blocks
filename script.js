@@ -117,6 +117,7 @@ function initGame(){
         let allowed = true;
         for(let j = 0; j<blocks.length; j++){
           if(blocks[j].player === player
+              && !blocks[j].horizontal
               && blocks[j].x === i
               && blocks[j].y === height-2){
             allowed=false;
@@ -214,14 +215,14 @@ function initGame(){
     ctx.fillStyle = grd;
     ctx.fillRect(0,lineheight,canvas.width,3);
 
-    for(let i=0;i<validMoves.length;i++){
-      ctx.beginPath();
-      ctx.fillStyle="black";
-      center = centerBlock(validMoves[i]);
-      ctx.arc(center.x,center.y,2,0,2*Math.PI);
-      ctx.fill();
-      ctx.closePath();
-    }
+    //for(let i=0;i<validMoves.length;i++){
+    //  ctx.beginPath();
+    //  ctx.fillStyle="black";
+    //  center = centerBlock(validMoves[i]);
+    //  ctx.arc(center.x,center.y,2,0,2*Math.PI);
+    //  ctx.fill();
+    //  ctx.closePath();
+    //}
     for(let i=0; i<blocks.length; i++){
       renderBlock(ctx, blocks[i],false);
     }
