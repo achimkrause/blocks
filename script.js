@@ -75,33 +75,44 @@ function initGame(){
   
   let computeValidMoves = function(){
     let list=[];
-    let leftMoveEdge = -8;
-    if(rightEdge !== undefined){
-      leftMoveEdge = rightEdge - 8;
+    if(rightEdge === undefined){
+      for(let i = -8; i<8; i++){
+          list.push({x:i,
+                     y:0,
+                     player:player,
+                     horizontal:false});
+      }
+      for(let i = -8; i<7; i++){
+          list.push({x:i,
+                     y:0,
+                     player:player,
+                     horizontal:true});
+      }
+      validMoves=list;
+      state='play';
+      return;
     }
-    let rightMoveEdge = 8;
-    if(leftEdge !== undefined){
-      rightMoveEdge = leftEdge + 8;
+    else{
     }
     heights = []
-    for(let i=leftMoveEdge;i<=rightMoveEdge;i++){
+    for(let i=leftEdge-2;i<=rightEdge+2;i++){
       heights.push(0);
     }
     for(let i=0;i<blocks.length;i++){
       if(blocks[i].horizontal){
-        let index = blocks[i].x - leftMoveEdge;
+        let index = blocks[i].x - (leftEdge-2);
         let height = blocks[i].y+1;
         heights[index] = Math.max(heights[index],height);
         heights[index+1] = Math.max(heights[index+1],height);
       }
       else{
-        let index = blocks[i].x - leftMoveEdge;
+        let index = blocks[i].x - (leftEdge-2);
         let height = blocks[i].y+2;
         heights[index] = Math.max(heights[index],height);
       }
     }
-    for(let i=leftMoveEdge;i<=rightMoveEdge;i++){ //vertical
-      height = heights[i-leftMoveEdge];
+    for(let i=Math.max(leftEdge-1,rightEdge-8);i<=Math.min(rightEdge+1,leftEdge+8);i++){ //vertical
+      height = heights[i-(leftEdge-2)];
       if(height + 2 <= 9){
         let allowed = true;
         for(let j = 0; j<blocks.length; j++){
@@ -122,9 +133,9 @@ function initGame(){
         }
       }
     }
-    for(let i=leftMoveEdge;i<=rightMoveEdge-1;i++){ //horizontal
-      height1 = heights[i-leftMoveEdge];
-      height2 = heights[i-leftMoveEdge+1];
+    for(let i=Math.max(leftEdge-2,rightEdge-8);i<=Math.min(rightEdge+2,leftEdge+7);i++){ //horizontal
+      height1 = heights[i-(leftEdge-2)];
+      height2 = heights[i-(leftEdge-2)+1];
       if(height1 === height2 && height1 + 1 <= 9){
         let allowed = true;
         for(let j = 0; j<blocks.length; j++){
@@ -203,14 +214,14 @@ function initGame(){
     ctx.fillStyle = grd;
     ctx.fillRect(0,lineheight,canvas.width,3);
 
-    //for(let i=0;i<validMoves.length;i++){
-    //  ctx.beginPath();
-    //  ctx.fillStyle="black";
-    //  center = centerBlock(validMoves[i]);
-    //  ctx.arc(center.x,center.y,2,0,2*Math.PI);
-    //  ctx.fill();
-    //  ctx.closePath();
-    //}
+    for(let i=0;i<validMoves.length;i++){
+      ctx.beginPath();
+      ctx.fillStyle="black";
+      center = centerBlock(validMoves[i]);
+      ctx.arc(center.x,center.y,2,0,2*Math.PI);
+      ctx.fill();
+      ctx.closePath();
+    }
     for(let i=0; i<blocks.length; i++){
       renderBlock(ctx, blocks[i],false);
     }
